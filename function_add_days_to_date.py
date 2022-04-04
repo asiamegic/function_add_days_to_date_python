@@ -1,33 +1,46 @@
 
 
-def test_calculateNumOfCars():
-    my_array = [['2', '2020-01-01T00:00:00.000Z', 'ENTRANCE'], ['2', '2020-01-01T05:00:00.000Z', 'EXIT'],['1', '2020-01-01T01:00:00.000Z', 'ENTRANCE'], ['1', '2020-01-01T05:00:00.000Z', 'EXIT']]
+#first vesion with calculation algorithm lib datetime
+def date_summ(enter_date,add_days):
+    from datetime import date, timedelta
 
-    result=0
-    for my_exit in my_array:
-        if my_exit[2]=="EXIT":
+    mydate =enter_date.split(".")
 
-            check_time_exit = list(map(int, my_exit[1][11:-5].split(":")))
-            sum_seconds_exit = (check_time_exit[0] * 3600) + (check_time_exit[1] * 60) + check_time_exit[2]
+    day=int(mydate[0])
+    month=int(mydate[1])
+    year=int(mydate[2])
 
-            id_car_exit = my_exit[0]
+    result_data = date(year, month, day) + timedelta(days=add_days)
+    print (result_data)
 
-            for my_entrance in my_array:
-                if my_entrance[0] == id_car_exit:
-
-                    check_time_entrance = list(map(int, my_entrance[1][11:-5].split(":")))
-                    sum_seconds_entrance = (check_time_entrance[0] * 3600) + (check_time_entrance[1] * 60) + check_time_entrance[2]
-
-                    count_hours = sum_seconds_exit - sum_seconds_entrance
-                    if count_hours > 7200:
-                        result+=1
-
-                    break
-    return result
-
-# test_calculateNumOfCars()
+date_summ("10.01.2008", 10)
 
 
 
 
+#second vesion with calculation algorithm lib datetime
+def date_summ2(enter_date,add_days):
+    import calendar
+    mydate =enter_date.split(".")
 
+    day=int(mydate[0])
+    month=int(mydate[1])
+    year=int(mydate[2])
+    count_days_in_month=calendar.monthrange(year, month)[1]
+
+    day=day+add_days
+
+    if day>count_days_in_month :
+        day=day-count_days_in_month
+        month=month+1
+        print("ok month")
+
+
+    if month>12:
+        year=year+1
+        month=month-1
+        print("three finish")
+
+    print(day,month, year)
+
+date_summ2("10.04.2022", 10)
